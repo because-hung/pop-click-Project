@@ -8,16 +8,18 @@
     <div class="board border-2 border-red-300 p-4 pb-0 text-4xl font-bold text-center">
       <div class="peanut flex flex-col justify-center" v-if="displayA">
         <img src="./assets/peanut.jpg" alt="">
-        <h2 class="p-2 text-4xl mx-auto "><span class="font-bold text-6xl">花生 </span>Win</h2>
+        <h2 class="p-2 text-4xl mx-auto "><span class="font-bold text-6xl py-2">花生 (✪ω✪) </span> Win</h2>
       </div>
       <div class="blackmi flex flex-col justify-center" v-if="displayB">
         <img src="./assets/blackmi.jpg" alt="">
-        <h2  class="p-2 text-4xl mx-auto "><span class="font-bold text-6xl">芝麻 </span>Win</h2>
+        <h2  class="p-2 text-4xl mx-auto "><span class="font-bold text-6xl py-2">芝麻 (๑´ڡ`๑) </span> Win</h2>
       </div>
        </div>
-  <div class="board border-2 border-red-300 p-4 pb-0 flex justify-between text-4xl font-bold text-center">
+  <div class="board border-2 border-red-300 p-4 pb-0 flex justify-between text-4xl font-bold text-center" v-for="(dum ,i) in countAll" :key="i">
     <h2>花生派<br><span  class="m-16 my-8 block">{{ countA }}</span></h2>
+    <h3>total:{{ dum.peanut }}</h3>
     <h2>芝麻派<span class="m-16 my-8 block">{{ countB }}</span></h2>
+    <h3>total:{{ dum.blackmi  }}</h3>
   </div>
   <div class="clickGroup flex justify-between ">
   <div class="section ">
@@ -36,42 +38,58 @@
   </div>
 </div>
   </div>
+  
 </template>
 <script>
+import { db } from './db'
 export default {
   data () {
     return {
       //set 0
-      // countA: 0,
-      // countB: 0,
-      countA:JSON.parse(localStorage.getItem('CountA')) || 0,
-      countB:JSON.parse(localStorage.getItem('CountB')) || 0,
+      deta:[],
+      countAll:[],
+      countA: 0,
+      countB: 0,
+      // countA:JSON.parse(localStorage.getItem('CountA')) || 0,
+      // countB:JSON.parse(localStorage.getItem('CountB')) || 0,
       displayA:false,
       displayB:false,
+    }
+  },
+  firestore () {
+    return{
+    countAll:db.collection('dum')
     }
   },
   methods:{
     counterA (){
       this.countA +=1
-      localStorage.setItem('CountA', JSON.stringify(this.countA))
-   
-         if (this.countA>this.countB){
+      let totalA = this.deta.peanut +=1
+         if (this.deta.peanut > this.deta.blackmi){
           this.displayA = true
           this.displayB = false
       }else{
         this.displayB = true
         this.displayA = false
       }
-         if (this.countA == this.countB){
+         if (this.deta.peanut == this.deta.blackmi){
             this.displayA = false
             this.displayB = false
          }
+      
+       db.collection('dum')
+       .doc('dumpling')
+       .update({
+        'peanut': totalA
+        // 'peanut': 0
+         }).then(()=>{
+       console.log('success')
+       })
     },
    counterB (){
       this.countB +=1
-       localStorage.setItem('CountB', JSON.stringify(this.countB))
-       
-              if (this.countA>this.countB){
+      let totalB = this.deta.blackmi +=1
+              if (this.deta.peanut>this.deta.blackmi){
         this.displayA = true
           this.displayB = false
       }else{
@@ -79,12 +97,35 @@ export default {
         this.displayA = false
       }
 
-      if (this.countA == this.countB){
+      if (this.deta.peanut == this.deta.blackmi){
             this.displayA = false
             this.displayB = false
          }
+     
+       db.collection('dum')
+       .doc('dumpling')
+       .update({
+        'blackmi': totalB
+        // 'blackmi': 0
+         }).then(()=>{
+       console.log('success')
+       })
     },
   },
+ mounted() {
+   let RReff = db.collection('dum').doc('dumpling')
+  RReff.onSnapshot(Snapshot => {
+    console.log('Current data: ', Snapshot.data());
+    this.deta = Snapshot.data();
+       console.log('this deta: ', this.deta);
+  },
+  error => {
+    console.log('Error getting document', error)
+  })
+//       // this.$bind('dum', db.collection('dum')).then(dum => {
+//       // this.countAll == dum})
+//       // console.log(this.countAll.peanut)
+  }
 }
 </script>
 
