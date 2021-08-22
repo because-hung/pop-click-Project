@@ -16,8 +16,8 @@
       </div>
        </div>
   <div class="board border-2 border-red-300 p-4 flex justify-between text-4xl font-bold text-center" v-for="(dum ,i) in countAll" :key="i">
-    <h3>total:<span class="text-6xl text-red-600 font-bold">{{ dum.peanut }}</span></h3>
-    <h3>total:<span class="text-6xl text-red-600 font-bold">{{ dum.blackmi  }}</span></h3>
+    <h3>total:<span class="text-5xl text-red-500 font-bold">{{ dum.peanut }}</span></h3>
+    <h3>total:<span class="text-5xl text-red-500 font-bold">{{ dum.blackmi  }}</span></h3>
   </div>
   <div class="board border-2 border-red-300 p-4 pb-0 flex justify-between text-4xl font-bold text-center">
     <h2>花生派<br><span  class="m-16 my-8 block">{{ countA }}</span></h2>
