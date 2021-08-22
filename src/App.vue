@@ -8,18 +8,20 @@
     <div class="board border-2 border-red-300 p-4 pb-0 text-4xl font-bold text-center">
       <div class="peanut flex flex-col justify-center" v-if="displayA">
         <img src="./assets/peanut.jpg" alt="">
-        <h2 class="p-2 text-4xl mx-auto "><span class="font-bold text-6xl py-2">花生 (✪ω✪) </span> Win</h2>
+        <h2 class="p-2 text-4xl mx-auto "><span class="font-bold text-6xl py-2">花生<br>(✪ω✪) </span> Win</h2>
       </div>
       <div class="blackmi flex flex-col justify-center" v-if="displayB">
         <img src="./assets/blackmi.jpg" alt="">
-        <h2  class="p-2 text-4xl mx-auto "><span class="font-bold text-6xl py-2">芝麻 (๑´ڡ`๑) </span> Win</h2>
+        <h2  class="p-2 text-4xl mx-auto "><span class="font-bold text-6xl py-2">芝麻<br>(๑´ڡ`๑) </span> Win</h2>
       </div>
        </div>
-  <div class="board border-2 border-red-300 p-4 pb-0 flex justify-between text-4xl font-bold text-center" v-for="(dum ,i) in countAll" :key="i">
+  <div class="board border-2 border-red-300 p-4 flex justify-between text-4xl font-bold text-center" v-for="(dum ,i) in countAll" :key="i">
+    <h3>total:<span class="text-6xl text-red-600 font-bold">{{ dum.peanut }}</span></h3>
+    <h3>total:<span class="text-6xl text-red-600 font-bold">{{ dum.blackmi  }}</span></h3>
+  </div>
+  <div class="board border-2 border-red-300 p-4 pb-0 flex justify-between text-4xl font-bold text-center">
     <h2>花生派<br><span  class="m-16 my-8 block">{{ countA }}</span></h2>
-    <h3>total:{{ dum.peanut }}</h3>
     <h2>芝麻派<span class="m-16 my-8 block">{{ countB }}</span></h2>
-    <h3>total:{{ dum.blackmi  }}</h3>
   </div>
   <div class="clickGroup flex justify-between ">
   <div class="section ">
